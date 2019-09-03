@@ -2,38 +2,53 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import ProductsList from '../ProductsList/ProductsList';
 import { Alert } from 'reactstrap';
-//import Pagination from '../../common/Pagination/Pagination';
+import Pagination from '../../common/Pagination/Pagination';
 
 class Products extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      //presentPage: props.initialPage || 1,
-      //perPage: props.postsPerPage || props.initialPostsPerPage
+      presentPage: props.initialPage || 1,
+      perPage: props.productsPerPage || props.initialProductsPerPage
     };
   }
 
+  onLoadProductsByPage = (page, productsPerPage) => {
+    const { loadProductsByPage } = this.props;
+    loadProductsByPage(page, productsPerPage);
+  }
+
   componentDidMount() {
-    const { loadProducts, resetRequest } = this.props;
-    //const { presentPage, perPage } = this.state;
+    const { loadProductsByPage, resetRequest } = this.props;
+    const { presentPage, perPage } = this.state;
     resetRequest();
-    loadProducts();
+    loadProductsByPage(presentPage, perPage);
   }
 
   render() {
-    const { products, request } = this.props;
+    const { products, request, pages, initialPage } = this.props;
+    const { perPage } = this.state;
+    const { onLoadProductsByPage } = this;
+
+    let { pagination } = this.props;
+    if(typeof(pagination) == 'undefined') pagination = true;
+
+    let paginationContent = '';
+    if(pagination) paginationContent = <Pagination pages={pages} perPage={perPage} initialPage={initialPage} onPageChange={onLoadProductsByPage} />;
 
     if(!request.pending && request.success && products.length > 0)
       return (
         <div>
           <ProductsList products={products} />
+          {paginationContent}
         </div>
       );
     if(request.pending || request.success === null)
       return (
         <div>
           spinner
+          {paginationContent}
         </div>
       );
     if(!request.pending && request.error !== null)
@@ -53,10 +68,10 @@ Products.propTypes = {
       price: PropTypes.number.isRequired,
     })
   ),
-  //pages: PropTypes.number.isRequired,
-  //loadPostsByPage: PropTypes.func.isRequired,
-  //initialPage: PropTypes.number,
-  //postsPerPage: PropTypes.number,
+  pages: PropTypes.number.isRequired,
+  loadProductsByPage: PropTypes.func.isRequired,
+  initialPage: PropTypes.number,
+  productsPerPage: PropTypes.number,
 };
 
 export default Products;
