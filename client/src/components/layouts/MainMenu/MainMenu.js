@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import { Nav, NavItem } from 'reactstrap';
 //import './MainMenu.scss';
 
 const MainMenu = ({ links, location }) => (
-  <ul className="main-menu">
+  <Nav className="ml-auto" navbar>
     { links.map((link, index) =>
-      <li key={index}>
-        <NavLink exact to={link.path} activeClassName='active'>{link.title}</NavLink>
-      </li>
+      <NavItem key={index} className={(link.path === location.pathname) ? 'nav-item active' : 'nav-item'}>
+        <NavLink exact to={link.path} className='nav-link' activeClassName='active'>{link.title}</NavLink>
+      </NavItem>
     )}
-  </ul>
+  </Nav>
 );
 
 MainMenu.propTypes = {
