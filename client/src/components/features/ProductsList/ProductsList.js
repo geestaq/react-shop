@@ -1,19 +1,23 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import './ProductsList.scss';
 
 const ProductsList = ({ products }) => (
-  <Row>
-    <Col className="products-list">
-      <Row>
-        {products.map(item => <Col key={item.id}>
-          <div className="product-item">
-            <h3>{item.name}</h3>
+  <div className="products-list">
+    <Row>
+      {products.map((item, index) => <Col key={index}>
+        <Link to={`/product/${item.id}`} className="product-item">
+          <div className="product-image">
+            <img src={`./images/products/${item.id}/${item.image}`} className="img-fluid" />
           </div>
-        </Col>)}
-      </Row>
-    </Col>
-  </Row>
+          <div className="product-title">{item.name}</div>
+          <div className="product-price">{item.price}</div>
+        </Link>
+      </Col>)}
+    </Row>
+  </div>
 );
 
 ProductsList.propTypes = {

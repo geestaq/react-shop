@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import ProductsList from '../ProductsList/ProductsList';
 import { Alert } from 'reactstrap';
 import Pagination from '../../common/Pagination/Pagination';
+import Spinner from '../../common/Spinner/Spinner';
 
 class Products extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class Products extends React.Component {
     if(request.pending || request.success === null)
       return (
         <div>
-          spinner
+          <Spinner/>
           {paginationContent}
         </div>
       );

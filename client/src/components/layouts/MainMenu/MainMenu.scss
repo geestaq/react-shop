@@ -1,0 +1,15 @@
+.footer-menu {
+  .navbar-nav {
+    margin: 0;
+    padding: 0;
+    flex-direction: row;
+
+    .nav-item {
+      display: inline-block;
+
+      .nav-link {
+        padding: 0 .5em;
+      }
+    }
+  }
+}

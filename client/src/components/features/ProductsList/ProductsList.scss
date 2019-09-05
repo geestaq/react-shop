@@ -1,0 +1,10 @@
+.products-list {
+  background-color: #000;
+  padding: 1em;
+
+  .product-item {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

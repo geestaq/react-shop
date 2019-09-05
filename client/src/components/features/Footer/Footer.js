@@ -1,5 +1,6 @@
 import React from 'react';
 import MainMenu from '../../layouts/MainMenu/MainMenu';
+import { Row, Col } from 'reactstrap';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -19,14 +20,16 @@ class Footer extends React.Component {
 
     return (
       <div className='footer'>
-        <div className="row">
-          <div className="col-md-6">
+        <Row>
+          <Col>
             Copyright by geestaq 2019
-          </div>
-          <div className="col-md-6">
-            <MainMenu links={links} />
-          </div>
-        </div>
+          </Col>
+          <Col>
+            <div className="footer-menu float-right">
+              <MainMenu links={links} />
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }

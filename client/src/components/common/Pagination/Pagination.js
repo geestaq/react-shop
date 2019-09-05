@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import './Pagination.scss';
+import './Pagination.scss';
 
 class Pagination extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class Pagination extends React.Component {
     }
 
     return (
-      <div className="pagination">
+      <div className="pagination float-right">
         <ul className="pagination__list">
           {prevLink}
           {[...Array(pages)].map((el, page) =>
