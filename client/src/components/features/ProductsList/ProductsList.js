@@ -7,7 +7,7 @@ import './ProductsList.scss';
 const ProductsList = ({ products }) => (
   <div className="products-list">
     <Row>
-      {products.map((item, index) => <Col key={index}>
+      {products.map((item, index) => <Col key={index} md="4">
         <Link to={`/product/${item.id}`} className="product-item">
           <div className="product-image">
             <img src={`./images/products/${item.id}/${item.image}`} className="img-fluid" />

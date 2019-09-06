@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import ProductsList from '../ProductsList/ProductsList';
 import { Alert } from 'reactstrap';
 import Pagination from '../../common/Pagination/Pagination';
+import Sort from '../../common/Sort/Sort';
 import Spinner from '../../common/Spinner/Spinner';
 
 class Products extends React.Component {
@@ -28,7 +29,7 @@ class Products extends React.Component {
   }
 
   render() {
-    const { products, request, pages, initialPage } = this.props;
+    const { products, request, pages, initialPage, presentSorting, changeSorting } = this.props;
     const { perPage } = this.state;
     const { onLoadProductsByPage } = this;
 
@@ -41,6 +42,7 @@ class Products extends React.Component {
     if(!request.pending && request.success && products.length > 0)
       return (
         <div>
+          <Sort presentSorting={presentSorting} onSortChange={changeSorting}/>
           <ProductsList products={products} />
           {paginationContent}
         </div>

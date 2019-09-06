@@ -28,7 +28,7 @@ class Pagination extends React.Component {
       prevLink = <li
         key="0"
         onClick={() => { changePage(presentPage-1) }}
-        className="pagination__list__item">&lt;</li>;
+        className="pagination-list-item">&lt;</li>;
     }
 
     let nextLink = '';
@@ -36,18 +36,18 @@ class Pagination extends React.Component {
       nextLink = <li
         key={pages}
         onClick={() => { changePage(presentPage+1) }}
-        className="pagination__list__item">&gt;</li>;
+        className="pagination-list-item">&gt;</li>;
     }
 
     return (
       <div className="pagination float-right">
-        <ul className="pagination__list">
+        <ul className="pagination-list">
           {prevLink}
           {[...Array(pages)].map((el, page) =>
             <li
                 key={++page}
                 onClick={() => { changePage(page) }}
-                className={`pagination__list__item${((page) === presentPage) ? ' pagination__list__item--active' : ''}`}>
+                className={`pagination-list-item${((page) === presentPage) ? ' pagination-list-item--active' : ''}`}>
                 {page}
             </li>
           )}
