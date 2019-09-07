@@ -92,11 +92,6 @@ export const loadProductsByPageWithSortRequest = (page, productsPerPage) => {
 
       //TODO - ladowanie produktow przez api
       //let res = await axios.get(`${API_URL}/posts/range/${startAt}/${limit}`);
-//DEBUG
-console.log({
-  products: products,
-  sort: sort
-});
 
       //sortowanie
       switch(sort) {
@@ -113,10 +108,6 @@ console.log({
           products.sort((a,b) => b.price - a.price);
           break;
       }
-//DEBUG
-console.log({
-  productsSorted: products,
-});
 
       const payload = {
         data: products.slice(startAt, startAt + limit),
@@ -167,10 +158,6 @@ export const changeSortingRequest = (newSort) => {
     //dispatch(startRequest());
     try {
       const productsPerPage = getState().products.productsPerPage;
-//DEBUG
-console.log({
-  productsPerPage: productsPerPage
-});
 
       dispatch(changeSorting(newSort));
       dispatch(loadProductsByPageWithSortRequest(1, productsPerPage));
@@ -188,7 +175,7 @@ const initialState = {
   data: [],
   amount: 0,
   productsPerPage: 3,
-  sort: 3, //A-Z
+  sort: 0, //A-Z
   singleProduct: null,
   request: {
     pending: false,

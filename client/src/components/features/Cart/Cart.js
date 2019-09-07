@@ -1,20 +1,74 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Alert, Row, Col, Table } from 'reactstrap';
+import { Alert, Row, Col, Table, Button, Input } from 'reactstrap';
 import CartProductsList from '../CartProductsList/CartProductsList';
-//import './Cart.scss';
+import './Cart.scss';
 
 class Cart extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      discountCode: props.cart.discountCode || '',
+      showDiscountForm: false
+    }
+  }
+
+  handleChangeDiscountCode = (e) => {
+    this.setState({ discountCode: e.target.value });
+//DEBUG
+console.log({
+  state: this.state
+});
+  }
+
+  handleDiscountCodeForm = (e) => {
+    this.setState({ showDiscountForm: true });
+
+//DEBUG
+console.log({
+  state: this.state
+});
+  }
+
+  handleAddDiscountCode = () => {
+    const { addDiscountCode } = this.props;
+    const { discountCode } = this.state;
+
+    //zamkniecie formularza
+    this.setState({
+      showDiscountForm: false
+    });
+
+    addDiscountCode(discountCode);
+  }
+
+  handleRemoveDiscountCode = () => {
+    const { addDiscountCode } = this.props;
+
+    //usuniecie kodu
+    this.setState({
+      discountCode: ''
+    });
+
+    addDiscountCode('');
+  }
 
   componentDidMount() {
     console.log("didMount");
+//DEBUG
+console.log({
+  state: this.state
+});
+
     //const { loadSingleProduct, resetRequest, match } = this.props;
     //resetRequest();
     //loadSingleProduct(match.params.id);
   }
 
   render() {
-    const { products, addProductToCart, removeProductFromCart, deleteProductFromCart } = this.props;
+    const { products, cart, addProductToCart, removeProductFromCart, deleteProductFromCart } = this.props;
+    const { showDiscountForm, discountCode } = this.state;
 
     let content = '';
     if(products.length === 0) {
@@ -22,6 +76,36 @@ class Cart extends React.Component {
     }
     else
     {
+      let discountText = 'Brak';
+      let discountButton = <Button onClick={(e) => this.handleDiscountCodeForm(e)} size="sm">+</Button>;
+      let discountShortcut = '';
+
+      if(showDiscountForm) {
+        discountText = <Input
+          type="text"
+          name="discountCode"
+          id="discountCode"
+          placeholder="Wprowadź kod"
+          onChange={(e) => this.handleChangeDiscountCode(e)}
+          value={discountCode}
+        />
+        discountButton = <Button onClick={() => this.handleAddDiscountCode()} size="sm">Zatwierdź</Button>;
+      }
+      else
+      {
+        if(cart.discountCode && cart.discount > 0) {
+          discountText = cart.discountAmount;
+          discountButton = <Button onClick={() => this.handleRemoveDiscountCode()} size="sm" color="danger" title="Usuń kod rabatowy">×</Button>;
+          discountShortcut = ` (${cart.discountCode} - ${cart.discount}%)`;
+        }
+        else
+        {
+          if(cart.discountCode && cart.discount === 0) {  //invalid code
+            discountText = 'Nieprawidłowy kod';
+          }
+        }
+      }
+
       content = <div className="cart">
         <Row>
           <Col>
@@ -30,9 +114,9 @@ class Cart extends React.Component {
                 <tr>
                   <th>#</th>
                   <th>Produkt</th>
-                  <th>Cena</th>
+                  <th className="text-right">Cena</th>
                   <th>Ilość</th>
-                  <th>Wartość</th>
+                  <th className="text-right">Wartość</th>
                   <th></th>
                 </tr>
               </thead>
@@ -41,6 +125,31 @@ class Cart extends React.Component {
                 addProductToCart={addProductToCart}
                 removeProductFromCart={removeProductFromCart}
                 deleteProductFromCart={deleteProductFromCart} />
+              <tbody>
+                <tr>
+                  <td colSpan="4" className="text-right">RAZEM:</td>
+                  <td className="text-right">{cart.total}</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td colSpan="4" className="text-right">
+                    KOD RABATOWY
+                    {discountShortcut}
+                    :
+                  </td>
+                  <td className="text-right">
+                      {discountText}
+                  </td>
+                  <td className="text-right">
+                    {discountButton}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="4" className="text-right">DO ZAPŁATY:</td>
+                  <td className="text-right">{cart.total + cart.discountAmount}</td>
+                  <td></td>
+                </tr>
+              </tbody>
             </Table>
           </Col>
         </Row>

@@ -1,7 +1,9 @@
 import { products } from '../data/products';
+import { discountCodes } from '../data/discountCodes';
 
 /* SELECTORS */
 export const getProductsInCart = ({ cart }) => cart.products;
+export const getCart = ({ cart }) => cart;
 
 // action name creator
 const reducerName = 'cart';
@@ -14,6 +16,8 @@ export const REMOVE_PRODUCT = createActionName('REMOVE_PRODUCT');
 export const removeProduct = payload => ({ payload, type: REMOVE_PRODUCT });
 export const DELETE_PRODUCT = createActionName('DELETE_PRODUCT');
 export const deleteProduct = payload => ({ payload, type: DELETE_PRODUCT });
+export const ADD_DISCOUNT_CODE = createActionName('ADD_DISCOUNT_CODE');
+export const addDiscountCode = payload => ({ payload, type: ADD_DISCOUNT_CODE });
 export const START_REQUEST = createActionName('START_REQUEST');
 export const END_REQUEST = createActionName('END_REQUEST');
 export const ERROR_REQUEST = createActionName('ERROR_REQUEST');
@@ -43,35 +47,11 @@ export const insertProductRequest = (id, quantity) => {
 
 /* INITIAL STATE */
 const initialState = {
-  products: [
-    {
-      product: {
-        id: "1",
-        name: "Ford Mustang GT",
-        description: "Opis produktu 1",
-        image: "mustang.jpg",
-        price: 100,
-        oldPrice: null,
-        new: null,
-        promotion: null,
-      },
-      quantity: 2,
-    },
-    {
-      product: {
-        id: "2",
-        name: "Mercedes-Benz AMG CL63",
-        description: "Opis produktu 2",
-        image: "cl63.jpg",
-        price: 100,
-        oldPrice: null,
-        new: null,
-        promotion: null,
-      },
-      quantity: 2,
-    },
-  ],
-  total: 400,
+  products: [],
+  total: 0,
+  discount: 0, //procent
+  discountAmount: 0,
+  discountCode: null,
   request: {
     pending: false,
     error: null,
@@ -83,6 +63,9 @@ const initialState = {
 export default function reducer(statePart = initialState, action = {}) {
   let productInCart;
   let newProducts;
+  let newDiscountAmount;
+  let newTotal;
+
   switch (action.type) {
     case INSERT_PRODUCT:
       //dane produktu
@@ -97,10 +80,13 @@ export default function reducer(statePart = initialState, action = {}) {
           }
           return item;
         });
+        newTotal = statePart.total + productInCart.product.price;
+        newDiscountAmount = -(statePart.discount / 100 * newTotal);
         return {
           ...statePart,
           products: newProducts,
-          total: statePart.total + productInCart.product.price
+          total: newTotal,
+          discountAmount: newDiscountAmount
         };
       } else {
         //nowy produkt do koszyka
@@ -108,11 +94,13 @@ export default function reducer(statePart = initialState, action = {}) {
           product: product,
           quantity: 1
         };
-        const total = statePart.total + newItem.product.price;
+        newTotal = statePart.total + newItem.product.price;
+        newDiscountAmount = -(statePart.discount / 100 * newTotal);
         return {
           ...statePart,
           products: [...statePart.products, newItem],
-          total: total
+          total: newTotal,
+          discountAmount: newDiscountAmount
         };
       }
     case REMOVE_PRODUCT:
@@ -134,10 +122,13 @@ export default function reducer(statePart = initialState, action = {}) {
           return item.product.id !== productInCart.product.id;
         });
       }
+      newTotal = statePart.total - productInCart.product.price;
+      newDiscountAmount = -(statePart.discount / 100 * newTotal);
       return {
         ...statePart,
         products: newProducts,
-        total: statePart.total - productInCart.product.price
+        total: newTotal,
+        discountAmount: newDiscountAmount
       }
     case DELETE_PRODUCT:
       //dane produktu
@@ -146,10 +137,31 @@ export default function reducer(statePart = initialState, action = {}) {
       newProducts = statePart.products.filter((item) => {
         return item.product.id !== productInCart.product.id;
       });
+      newTotal = statePart.total - (productInCart.product.price * productInCart.quantity);
+      newDiscountAmount = -(statePart.discount / 100 * newTotal);
+
       return {
         ...statePart,
         products: newProducts,
-        total: statePart.total - (productInCart.product.price * productInCart.quantity)
+        total: newTotal,
+        discountAmount: newDiscountAmount
+      }
+    case ADD_DISCOUNT_CODE:
+      const newDiscountCode = action.payload !== '' ? action.payload : null;
+      let newDiscount = 0;
+      //czy podany kod jest prawidlowy
+      const validCode = discountCodes.find(item => item.code === newDiscountCode);
+      if(validCode) {
+        newDiscount = validCode.discount;
+      }
+      //wyliczenie kwoty rabatu
+      newDiscountAmount = -(newDiscount / 100 * statePart.total);
+
+      return {
+        ...statePart,
+        discountCode: newDiscountCode,
+        discount: newDiscount,
+        discountAmount: newDiscountAmount
       }
     case START_REQUEST:
       return { ...statePart, request: { pending: true, error: null, success: null } };

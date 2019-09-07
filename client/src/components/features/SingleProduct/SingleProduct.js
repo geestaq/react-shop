@@ -47,9 +47,14 @@ class SingleProduct extends React.Component {
               <img src={`/images/products/${product.id}/${product.image}`} className="img-fluid"/>
             </Col>
             <Col>
-              <div className="markers">aaa</div>
+              <div className="product-markers">
+                {singleProduct.new ? <div className="new">Nowość</div> : ``}
+                {singleProduct.promotion ? <div className="promotion">Promocja</div> : ``}
+              </div>
             </Col>
             <Col>
+              <div className="product-price">{singleProduct.price}</div>
+              {singleProduct.oldPrice ? <div className="product-old-price">{singleProduct.oldPrice}</div> : ``}
               <div className="buttons">
                 <Button color="success" size="lg" block onClick={() => this.onAddToCart()}>
                   Dodaj do koszyka

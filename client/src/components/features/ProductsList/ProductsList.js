@@ -11,9 +11,16 @@ const ProductsList = ({ products }) => (
         <Link to={`/product/${item.id}`} className="product-item">
           <div className="product-image">
             <img src={`./images/products/${item.id}/${item.image}`} className="img-fluid" />
+            <div className="product-markers">
+              {item.new ? <div className="new">Nowość</div> : ``}
+              {item.promotion ? <div className="promotion">Promocja</div> : ``}
+            </div>
           </div>
           <div className="product-title">{item.name}</div>
-          <div className="product-price">{item.price}</div>
+          <div className="product-price">
+            {item.price}
+            {item.oldPrice ? <span className="old-price">{item.oldPrice}</span> : ``}
+          </div>
         </Link>
       </Col>)}
     </Row>
