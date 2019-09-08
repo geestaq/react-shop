@@ -4,31 +4,16 @@ import { Form, FormGroup, Label, Input } from 'reactstrap';
 //import './Sort.scss';
 
 class Sort extends React.Component {
-  constructor(props) {
-    super(props);
-/*
-    this.state = {
-      presentPage: props.initialPage || 1
-    };
-*/
-  }
 
   onChange = (event) => {
     const { onSortChange } = this.props;
     const newSort = parseInt(event.target.value);
-//DEBUG
-console.log({
-  newSort: newSort
-});
     onSortChange(newSort);
   }
 
   render() {
     const { presentSorting } = this.props;
-//DEBUG
-console.log({
-  presentSorting: presentSorting
-});
+
     return (
       <div className="sorting clearfix">
         <Form inline>

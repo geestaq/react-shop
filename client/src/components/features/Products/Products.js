@@ -11,7 +11,7 @@ class Products extends React.Component {
     super(props);
 
     this.state = {
-      presentPage: props.initialPage || 1,
+      presentPage: props.initialPage,
       perPage: props.productsPerPage || props.initialProductsPerPage
     };
   }

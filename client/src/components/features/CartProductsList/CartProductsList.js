@@ -20,7 +20,10 @@ class CartProductsList extends React.Component {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, edit } = this.props;
+console.log({
+  edit: edit
+});
     return (
       <tbody>
         {products.map((item, index) => <tr key={index}>
@@ -28,13 +31,13 @@ class CartProductsList extends React.Component {
           <td>{item.product.name}</td>
           <td className="text-right">{item.product.price}</td>
           <td>
-            <Button onClick={() => this.onItemAdd(item.product.id)} size="sm">+</Button>
+            {edit ? <Button onClick={() => this.onItemAdd(item.product.id)} size="sm">+</Button> : ``}
             <span className="px-2">{item.quantity}</span>
-            <Button onClick={() => this.onItemRemove(item.product.id)} size="sm">-</Button>
+            {edit ? <Button onClick={() => this.onItemRemove(item.product.id)} size="sm">-</Button> : ``}
           </td>
           <td className="text-right">{Math.round(parseFloat(item.quantity) * parseFloat(item.product.price) / 100) * 100}</td>
           <td className="text-right">
-            <Button onClick={() => this.onItemDelete(item.product.id)} color="danger" size="sm" title="Usuń z koszyka">×</Button>
+            {edit ? <Button onClick={() => this.onItemDelete(item.product.id)} color="danger" size="sm" title="Usuń z koszyka">×</Button> : ``}
           </td>
         </tr>)}
       </tbody>

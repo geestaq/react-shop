@@ -16,6 +16,8 @@ export const REMOVE_PRODUCT = createActionName('REMOVE_PRODUCT');
 export const removeProduct = payload => ({ payload, type: REMOVE_PRODUCT });
 export const DELETE_PRODUCT = createActionName('DELETE_PRODUCT');
 export const deleteProduct = payload => ({ payload, type: DELETE_PRODUCT });
+export const CLEAR_CART = createActionName('CLEAR_CART');
+export const clearCart = () => ({ type: CLEAR_CART });
 export const ADD_DISCOUNT_CODE = createActionName('ADD_DISCOUNT_CODE');
 export const addDiscountCode = payload => ({ payload, type: ADD_DISCOUNT_CODE });
 export const START_REQUEST = createActionName('START_REQUEST');
@@ -145,6 +147,15 @@ export default function reducer(statePart = initialState, action = {}) {
         products: newProducts,
         total: newTotal,
         discountAmount: newDiscountAmount
+      }
+    case CLEAR_CART:
+      return {
+        ...statePart,
+        products: [],
+        total: 0,
+        discountAmount: 0,
+        discount: 0,
+        discountCode: null
       }
     case ADD_DISCOUNT_CODE:
       const newDiscountCode = action.payload !== '' ? action.payload : null;

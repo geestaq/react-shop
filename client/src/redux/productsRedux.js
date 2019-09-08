@@ -7,6 +7,7 @@ export const getProductsPerPage = ({ products }) => products.productsPerPage;
 export const getPages = ({ products }) => Math.ceil(products.amount / products.productsPerPage);
 export const getSingleProduct = ({ products }) => products.singleProduct;
 export const getSort = ({ products }) => products.sort;
+export const getPage = ({ products }) => products.presentPage;
 
 // action name creator
 const reducerName = 'products';
@@ -107,6 +108,7 @@ export const loadProductsByPageWithSortRequest = (page, productsPerPage) => {
         case 3: //od najdrozszego
           products.sort((a,b) => b.price - a.price);
           break;
+        default:
       }
 
       const payload = {
@@ -175,6 +177,7 @@ const initialState = {
   data: [],
   amount: 0,
   productsPerPage: 3,
+  presentPage: 1,
   sort: 0, //A-Z
   singleProduct: null,
   request: {

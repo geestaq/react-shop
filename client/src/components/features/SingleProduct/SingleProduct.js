@@ -2,7 +2,6 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import HtmlBox from '../../common/HtmlBox/HtmlBox';
 import Spinner from '../../common/Spinner/Spinner';
-import { Grid } from 'svg-loaders-react';
 import { Alert, Row, Col, Button } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './SingleProduct.scss';
@@ -34,7 +33,7 @@ class SingleProduct extends React.Component {
   }
 
   render() {
-    const { singleProduct, request, location } = this.props;
+    const { singleProduct, request } = this.props;
     const product = singleProduct;
 
     let content = '';

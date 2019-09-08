@@ -10,7 +10,24 @@ class Cart extends React.Component {
 
     this.state = {
       discountCode: props.cart.discountCode || '',
-      showDiscountForm: false
+      showDiscountForm: false,
+      showOrderConfirmation: false
+    }
+  }
+
+  componentWillUnmount() {
+//DEBUG
+console.log({
+  unmount: '',
+  state: this.state
+});
+    const { showOrderConfirmation } = this.state;
+    const { clearCart } = this.props;
+
+    //wyczyszczenie koszyka
+    if(showOrderConfirmation) {
+      clearCart();
+      this.setState({ showOrderConfirmation: false });
     }
   }
 
@@ -54,21 +71,16 @@ console.log({
     addDiscountCode('');
   }
 
-  componentDidMount() {
-    console.log("didMount");
-//DEBUG
-console.log({
-  state: this.state
-});
-
-    //const { loadSingleProduct, resetRequest, match } = this.props;
-    //resetRequest();
-    //loadSingleProduct(match.params.id);
+  handleOrderConfirmation = () => {
+    //potwierdzenie zamowienia
+    this.setState({
+      showOrderConfirmation: true
+    });
   }
 
   render() {
     const { products, cart, addProductToCart, removeProductFromCart, deleteProductFromCart } = this.props;
-    const { showDiscountForm, discountCode } = this.state;
+    const { showDiscountForm, discountCode, showOrderConfirmation } = this.state;
 
     let content = '';
     if(products.length === 0) {
@@ -77,7 +89,7 @@ console.log({
     else
     {
       let discountText = 'Brak';
-      let discountButton = <Button onClick={(e) => this.handleDiscountCodeForm(e)} size="sm">+</Button>;
+      let discountButton = !showOrderConfirmation ? <Button onClick={(e) => this.handleDiscountCodeForm(e)} size="sm">+</Button> : ``;
       let discountShortcut = '';
 
       if(showDiscountForm) {
@@ -95,7 +107,7 @@ console.log({
       {
         if(cart.discountCode && cart.discount > 0) {
           discountText = cart.discountAmount;
-          discountButton = <Button onClick={() => this.handleRemoveDiscountCode()} size="sm" color="danger" title="Usuń kod rabatowy">×</Button>;
+          discountButton = !showOrderConfirmation ? <Button onClick={() => this.handleRemoveDiscountCode()} size="sm" color="danger" title="Usuń kod rabatowy">×</Button> : ``;
           discountShortcut = ` (${cart.discountCode} - ${cart.discount}%)`;
         }
         else
@@ -124,7 +136,9 @@ console.log({
                 products={products}
                 addProductToCart={addProductToCart}
                 removeProductFromCart={removeProductFromCart}
-                deleteProductFromCart={deleteProductFromCart} />
+                deleteProductFromCart={deleteProductFromCart}
+                edit={!showOrderConfirmation}
+              />
               <tbody>
                 <tr>
                   <td colSpan="4" className="text-right">RAZEM:</td>
@@ -153,51 +167,19 @@ console.log({
             </Table>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            { showOrderConfirmation ?
+              <Alert color="success">Twoje zamówienie zostało przekazane do realizacji</Alert> :
+              <div className="text-right">
+                <Button onClick={() => this.handleOrderConfirmation()} size="lg" color="primary">Potwierdź zamówienie</Button>
+              </div>
+            }
+          </Col>
+        </Row>
       </div>
     }
-/*
-    if(!request.pending && request.success && product !== null)
-      content = <article id={`product-${product.id}`}>
-        <div className="single-product">
-          <h3>{product.name}</h3>
-          <Row>
-            <Col md="6">
-              <img src={`/images/products/${product.id}/${product.image}`} className="img-fluid"/>
-            </Col>
-            <Col>
-              <div className="markers">aaa</div>
-            </Col>
-            <Col>
-              <div className="buttons">
-                <Button color="success" size="lg" block onClick={() => this.onAddToCart()}>
-                  Dodaj do koszyka
-                </Button>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <HtmlBox>{singleProduct.description}</HtmlBox>
-            </Col>
-          </Row>
-        </div>
-        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Informacja</ModalHeader>
-          <ModalBody>
-            Produkt został dodany do koszyka
-          </ModalBody>
-          <ModalFooter>
-            <Button color="secondary" onClick={this.toggleModal}>Zamknij</Button>
-          </ModalFooter>
-        </Modal>
-      </article>;
-    if(request.pending || request.success === null)
-      content = <Spinner/>;
-    if(!request.pending && request.error !== null)
-      content = <Alert color="error">{request.error}</Alert>;
-    if(!request.pending && request.success && singleProduct === null)
-      content = <Alert color="info">Produkt nie istnieje</Alert>;
-*/
+
     return (
       <div>
         {content}

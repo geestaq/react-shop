@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getProducts, getRequest, resetRequest, loadProductsByPageWithSortRequest, getPages, getProductsPerPage, getSort, changeSortingRequest } from '../../../redux/productsRedux';
+import { getPage, getProducts, getRequest, resetRequest, loadProductsByPageWithSortRequest, getPages, getProductsPerPage, getSort, changeSortingRequest } from '../../../redux/productsRedux';
 import Products from './Products';
 
 const mapStateToProps = state => ({
@@ -7,6 +7,7 @@ const mapStateToProps = state => ({
   request: getRequest(state),
   pages: getPages(state),
   initialProductsPerPage: getProductsPerPage(state),
+  initialPage: getPage(state),
   presentSorting: getSort(state),
 })
 
