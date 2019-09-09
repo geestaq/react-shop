@@ -1,0 +1,20 @@
+@import '../../../styles/settings.scss';
+
+.footer {
+  background: rgba(0,0,0,.5);
+  padding: 1em;
+
+  .main-menu {
+
+    .nav-item {
+
+      .nav-link {
+        color: $body-color;
+
+        &:hover, &.active {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

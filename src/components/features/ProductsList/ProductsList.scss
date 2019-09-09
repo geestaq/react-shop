@@ -1,0 +1,56 @@
+@import '../../../styles/settings.scss';
+
+.products-list {
+
+  .product-item {
+    display: block;
+    color: $body-color;
+    margin-bottom: 2em;
+
+    &:hover {
+      color: $body-color;
+      text-decoration: none;
+    }
+
+    .product-title {
+      color: $product-title-color;
+    }
+
+    .product-price {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #46d676;
+
+      .old-price {
+        text-decoration: line-through;
+        font-size: .7em;
+        margin-left: .5em;
+        color: #316d45;
+      }
+    }
+
+    .product-image {
+      position: relative;
+
+      .product-markers {
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-transform: uppercase;
+        font-size: .8em;
+        text-align: center;
+        color: $body-bg;
+
+        .new {
+          background-color: #46d676;
+          padding: 0 .5em;
+        }
+
+        .promotion {
+          background-color: #efa434;
+          padding: 0 .5em;
+        }
+      }
+    }
+  }
+}

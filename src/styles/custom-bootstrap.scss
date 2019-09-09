@@ -1,0 +1,25 @@
+// Override default variables before the import
+@import './settings.scss';
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+
+body {
+  background: url('/images/bg-main.jpg');
+  background-repeat: no-repeat;
+  background-color: $body-bg;
+}
+
+.bg-dark {
+  background-color: rgba(0,0,0,.5) !important;
+}
+
+.content {
+  background-color: #000;
+  margin: 2em 0;
+  padding: 1em;
+}
+
+.container {
+  min-width: 400px;
+}
