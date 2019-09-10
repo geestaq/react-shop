@@ -4,7 +4,10 @@ Projekt końcowy kursu Kodilla Webdeveloper.
 
 # Instalacja
 
-`npm install`
+`
+npm|yarn install,
+npm|yarn start
+`
 
 # Funkcjonalności
 
