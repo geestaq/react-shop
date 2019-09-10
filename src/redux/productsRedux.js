@@ -42,9 +42,6 @@ export const loadProductsByPageWithSortRequest = (page, productsPerPage) => {
       const limit = productsPerPage;
       const sort = getState().products.sort;
 
-      //TODO - ladowanie produktow przez api
-      //let res = await axios.get(`${API_URL}/posts/range/${startAt}/${limit}`);
-
       //sortowanie
       switch(sort) {
         case 0: //A-Z
@@ -69,13 +66,11 @@ export const loadProductsByPageWithSortRequest = (page, productsPerPage) => {
         presentPage: page,
       };
 
+      //fakeowe ladowanie danych
       setTimeout(() => {
         dispatch(loadProductsByPage(payload));
         dispatch(endRequest());
       }, 1000);
-
-      //dispatch(loadProductsByPage(payload));
-      //dispatch(endRequest());
 
     } catch(e) {
       dispatch(errorRequest(e.message));
@@ -88,17 +83,15 @@ export const loadSingleProductRequest = (id) => {
   return async dispatch => {
     dispatch(startRequest());
     try {
-      //let res = await axios.get(`${API_URL}/post/${id}`);
+
       let product = products.find((item) => item.id === id);
       if(typeof(product) == "undefined") product = null;
-//console.log(product);
+
+      //fakeowe ladowanie danych
       setTimeout(() => {
         dispatch(loadSingleProduct(product));
         dispatch(endRequest());
       }, 1000);
-
-      //dispatch(loadSinglePost(res.data));
-      //dispatch(endRequest());
 
     } catch(e) {
       dispatch(errorRequest(e.message));
@@ -109,7 +102,6 @@ export const loadSingleProductRequest = (id) => {
 export const changeSortingRequest = (newSort) => {
   return async (dispatch, getState) => {
 
-    //dispatch(startRequest());
     try {
       const productsPerPage = getState().products.productsPerPage;
 

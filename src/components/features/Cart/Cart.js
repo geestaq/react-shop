@@ -16,11 +16,6 @@ class Cart extends React.Component {
   }
 
   componentWillUnmount() {
-//DEBUG
-console.log({
-  unmount: '',
-  state: this.state
-});
     const { showOrderConfirmation } = this.state;
     const { clearCart } = this.props;
 
@@ -89,7 +84,7 @@ console.log({
           name="discountCode"
           id="discountCode"
           placeholder="Wprowadź kod"
-          size="sm"
+          bsSize="sm"
           className="ml-auto"
           onChange={(e) => this.handleChangeDiscountCode(e)}
           value={discountCode}

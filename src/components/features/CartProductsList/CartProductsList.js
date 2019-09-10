@@ -21,9 +21,7 @@ class CartProductsList extends React.Component {
 
   render() {
     const { products, edit } = this.props;
-console.log({
-  edit: edit
-});
+
     return (
       <tbody>
         {products.map((item, index) => <tr key={index}>

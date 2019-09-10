@@ -12,7 +12,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  //loadProducts: () => dispatch(loadProductsRequest()),
   loadProductsByPage: (page, productsPerPage) => dispatch(loadProductsByPageWithSortRequest(page, productsPerPage)),
   resetRequest: () => dispatch(resetRequest()),
   changeSorting: (newSort) => dispatch(changeSortingRequest(newSort)),

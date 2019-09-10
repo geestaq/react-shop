@@ -10,7 +10,7 @@ const ProductsList = ({ products }) => (
       {products.map((item, index) => <Col key={index} lg="4" md="6">
         <Link to={`/product/${item.id}`} className="product-item">
           <div className="product-image">
-            <img src={`./images/products/${item.id}/${item.image}`} className="img-fluid" />
+            <img src={`./images/products/${item.id}/${item.image}`} className="img-fluid" alt="" />
             <div className="product-markers">
               {item.new ? <div className="new">Nowość</div> : ``}
               {item.promotion ? <div className="promotion">Promocja</div> : ``}
@@ -58,7 +58,6 @@ ProductsList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
     })
   ),

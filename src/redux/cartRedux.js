@@ -30,22 +30,6 @@ export const errorRequest = error => ({ error, type: ERROR_REQUEST });
 export const resetRequest = () => ({ type: RESET_REQUEST });
 
 /* THUNKS */
-export const insertProductRequest = (id, quantity) => {
-  /*
-  return async dispatch => {
-    dispatch(startRequest());
-    try {
-
-      setTimeout(() => {
-        dispatch(loadProducts(products));
-        dispatch(endRequest());
-      }, 1000);
-    } catch(e) {
-      dispatch(errorRequest(e.message));
-    }
-  };
-  */
-};
 
 /* INITIAL STATE */
 const initialState = {

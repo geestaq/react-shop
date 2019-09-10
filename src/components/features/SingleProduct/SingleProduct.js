@@ -1,6 +1,5 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import HtmlBox from '../../common/HtmlBox/HtmlBox';
 import Spinner from '../../common/Spinner/Spinner';
 import { Alert, Row, Col, Button, Table } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -44,7 +43,7 @@ class SingleProduct extends React.Component {
           </div>
           <Row>
             <Col lg="6">
-              <img src={`/images/products/${product.id}/${product.image}`} className="img-fluid"/>
+              <img src={`/images/products/${product.id}/${product.image}`} className="img-fluid" alt=""/>
             </Col>
             <Col lg="3">
               <div className="product-markers">
@@ -120,7 +119,6 @@ SingleProduct.propTypes = {
   singleProduct: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   }),
   loadSingleProduct: PropTypes.func.isRequired,

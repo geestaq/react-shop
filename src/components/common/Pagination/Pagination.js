@@ -21,7 +21,6 @@ class Pagination extends React.Component {
   render() {
     const { pages } = this.props;
     const { presentPage } = this.state;
-    const { changePage } = this;
 
     let prevLink = '';
     if(presentPage > 1) {

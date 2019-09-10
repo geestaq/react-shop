@@ -25,7 +25,7 @@ class Footer extends React.Component {
         <Row>
           <Col>
             <Link to="/" className="logo-link">
-              <img src="/images/logo.png" height="50" className="logo"/>
+              <img src="/images/logo.png" height="50" className="logo" alt="Logo"/>
             </Link>
           </Col>
           <Col className="align-self-center text-center">
